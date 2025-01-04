@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting App with Speech to Symbol Feature</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --bg-color-light: #ffffff;
+            --text-color-light: #000000;
+            --bg-color-dark: #121212;
+            --text-color-dark: #ffffff;
+        }
+
+        body {
+            background-color: var(--bg-color-light);
+            color: var(--text-color-light);
+            font-family: 'Roboto', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: var(--bg-color-dark);
+            color: var(--text-color-dark);
+        }
+
+        .mode-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .mode-toggle:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="modeToggle" class="mode-toggle">Train Model</button>
+    <div class="container">
+        <h1>Meeting App with Speech to Symbol Feature</h1>
+        
+        <!-- Meeting Section -->
+        <div class="meeting-section">
+            <h2>Meeting Section</h2>
+            <div class="container">
+                <div class="row mb-3 mt-3 justify-content-md-center">
+                    <div id="user-name"></div>
+
+                    <button id="call" class="btn btn-primary col-1">Call!</button>
+                    <button id="hangup" class="btn btn-primary col-1">Hangup</button>
+                    <button id="startScreenShare" class="btn btn-success col-1">Share Screen</button>
+                    <button id="stopScreenShare" class="btn btn-danger col-1" disabled>Stop Screen Share</button>
+
+                    <div id="answer" class="col"></div>
+                </div>
+
+                <div id="videos">
+                    <div id="video-wrapper">
+                        <div id="waiting" class="btn btn-warning">Waiting for answer...</div>
+                        <video class="video-player" id="local-video" autoplay playsinline controls></video>
+                    </div>
+                    <video class="video-player" id="remote-video" autoplay playsinline controls></video>
+
+                    <video class="video-player" id="screen-share-video" autoplay playsinline controls></video>
+                </div>
+            </div>
+        </div>
+        <!-- End of Meeting Section -->
+
+        <!-- Speech to Symbol Feature -->
+        <div id="speechToSymbol" class="speech-tool">
+            <h1>EchoAssist</h1>
+            <p class="tagline">Translation and Hand Signs - Translation Tool, so anybody can defeat the communication-barrier!</p>
+            <div id="lang-translation-input">
+                <label for="translatedLang">Choose translation language:</label>
+                <select name="translatedLang" id="translatedLang">
+                    <option value="en" disabled selected hidden>Select</option>
+                    <option value="as">Assamese</option>
+                    <option value="bn">Bengali</option>
+                    <option value="gu">Gujarati</option>
+                    <option value="hi">Hindi</option>
+                    <option value="kn">Kannada</option>
+                    <option value="ml">Malayalam</option>
+                    <option value="mr">Marathi</option>
+                    <option value="ne">Nepali</option>
+                    <option value="or">Odia/Oriya</option>
+                    <option value="pa">Punjabi</option>
+                    <option value="sa">Sanskrit</option>
+                    <option value="te">Telugu</option>
+                    <option value="ur">Urdu</option>
+                </select>
+            </div>
+
+            <button id="startSpeechToSymbol">Start Recording</button>
+            <button id="stopSpeechToSymbol" disabled>Stop Recording</button>
+            <p class="status">Status: <span id="instructions">Press the 'Start Recording' button and speak in English.</span></p>
+
+            <hr class="completeSpeech-divider">
+
+            <p class="label">Current Speech:</p>
+            <div class="result-container" id="resultText">&nbsp;</div>
+            <div class="result-container" id="resultTextTrans">&nbsp;</div>
+            <div class="result-container" id="resultSymbol">&nbsp;</div>
+
+            <hr class="completeSpeech-divider">
+
+            <p class="label completeSpeech">Complete Speech:</p>
+            <div class="result-container" id="resultTextTot">&nbsp;</div>
+            <div class="result-container" id="resultTextTransTot">&nbsp;</div>
+            <div class="result-container" id="resultSymbolTot">&nbsp;</div>
+        </div>
+
+        <!-- Additional Translator -->
+        <div id="additionalTranslator" class="speech-tool">
+            <h1>Additional Translator</h1>
+            <p class="tagline">An additional translator for extended functionality!</p>
+            <iframe 
+                src="http://10.224.30.90:8501/" 
+                width="100%" 
+                height="500px" 
+                style="border: 1px solid #ddd;" 
+                title="Additional Translator"></iframe>
+        </div>
+    </div>
+
+    <!-- Scripts for functionality -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="scripts.js"></script>
+    <script src="socketListeners.js"></script>
+    <script src="speechToSymbol.js"></script>
+    <script>
+        const modeToggle = document.getElementById('modeToggle');
+        const body = document.body;
+    
+        modeToggle.addEventListener('click', () => {
+            window.location.href = 'http://localhost:9966/';
+        });
+    </script>
+    
+</body>
+
+</html>
