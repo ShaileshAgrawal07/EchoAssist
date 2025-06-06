@@ -70,9 +70,6 @@ const answerOffer = async(offerObj)=>{
 }
 
 const addAnswer = async(offerObj)=>{
-    //addAnswer is called in socketListeners when an answerResponse is emitted.
-    //at this point, the offer and answer have been exchanged!
-    //now CLIENT1 needs to set the remote
     await peerConnection.setRemoteDescription(offerObj.answer)
     // console.log(peerConnection.signalingState)
 }
@@ -95,20 +92,15 @@ const fetchUserMedia = ()=>{
     })
 }
 
-
-
 const createPeerConnection = (offerObj)=>{
     return new Promise(async(resolve, reject)=>{
         //RTCPeerConnection is the thing that creates the connection
-        //we can pass a config object, and that config object can contain stun servers
-        //which will fetch us ICE candidates
         peerConnection = await new RTCPeerConnection(peerConfiguration)
         remoteStream = new MediaStream()
         remoteVideoEl.srcObject = remoteStream;
 
 
         localStream.getTracks().forEach(track=>{
-            //add localtracks so that they can be sent once the connection is established
             peerConnection.addTrack(track,localStream);
         })
 
@@ -139,9 +131,6 @@ const createPeerConnection = (offerObj)=>{
         })
 
         if(offerObj){
-            //this won't be set when called from call();
-            //will be set when we call from answerOffer()
-            // console.log(peerConnection.signalingState) //should be stable because no setDesc has been run yet
             await peerConnection.setRemoteDescription(offerObj.offer)
             // console.log(peerConnection.signalingState) //should be have-remote-offer, because client2 has setRemoteDesc on the offer
         }
@@ -154,10 +143,6 @@ const addNewIceCandidate = iceCandidate=>{
     console.log("======Added Ice Candidate======")
 }
 
-
-
-
-
 const resetUI = () => {
     document.getElementById('call').disabled = false;
     document.getElementById('hangup').disabled = true;
@@ -168,7 +153,6 @@ const resetUI = () => {
     remoteVideoEl.srcObject = null;
     screenShareVideo.srcObject = null;
 };
-
 
 const hangupCall = () => {
     console.log("Hangup button clicked");
@@ -208,8 +192,6 @@ const hangupCall = () => {
 };
 
 
-
-
 function stopScreenShare() {
     const stream = screenShareVideo.srcObject;
     if (stream) {
@@ -233,16 +215,9 @@ function stopScreenShare() {
     startScreenShareBtn.disabled = false;
 }
 
-
-
-
-
-
-
 document.querySelector('#call').addEventListener('click',call)
 // Add event listener for the hang-up button
 document.getElementById('hangup').addEventListener('click', hangupCall);
-
 document.getElementById('hangup').disabled = true;
 
 const updateUIOnCallStart = () => {
@@ -256,15 +231,6 @@ socket.on('callEnded', (data) => {
     resetUI();
 });
 
-
-
-
-
-
-
-
-
-
 // Function to start screen sharing
 async function startScreenShare() {
     try {
@@ -273,7 +239,6 @@ async function startScreenShare() {
             audio: true // Include audio if you want to share audio as well
         });
 
-
         const videoSender = peerConnection.getSenders().find(sender => sender.track.kind === 'video');
         if (videoSender) {
             videoSender.replaceTrack(screenStream.getVideoTracks()[0]);
@@ -281,10 +246,7 @@ async function startScreenShare() {
 
         // Notify other users that this user is sharing their screen
         socket.emit('startScreenShare', { streamId: screenStream.id });
-
         screenShareVideo.srcObject = screenStream;
-
-
         screenStream.getVideoTracks()[0].onended = stopScreenShare;
 
         // Update UI
@@ -309,7 +271,6 @@ function stopScreenShare() {
         if (videoSender) {
             videoSender.replaceTrack(videoTrack);
         }
-
         // Emit an event to notify others that the screen sharing has stopped
         socket.emit('stopScreenShare');
 
@@ -322,10 +283,7 @@ function stopScreenShare() {
 // Event listeners for the screen share buttons
 document.getElementById('startScreenShare').addEventListener('click', startScreenShare);
 document.getElementById('stopScreenShare').addEventListener('click', stopScreenShare);
-
 document.querySelector('#call').addEventListener('click',call)
-
-
 
 socket.on('receivedScreenShareStream', (data) => {
     console.log('Received screen share stream');
