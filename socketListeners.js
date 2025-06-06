@@ -1,4 +1,3 @@
-
 //on connection get all available offers and call createOfferEls
 socket.on('availableOffers',offers=>{
     console.log(offers)
@@ -49,20 +48,9 @@ socket.on('callEnded', (data) => {
 
     // Clear remote video
     remoteVideoEl.srcObject = null;
-
-
     document.getElementById('call').disabled = false; // Enable Call button
     document.getElementById('hangup').disabled = true; // Disable Hangup button
 });
-
-
-
-
-
-
-
-
-
 
 socket.on('receivedScreenShareStream', (data) => {
     // Handle receiving screen share stream
