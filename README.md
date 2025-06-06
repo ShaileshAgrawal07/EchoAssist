@@ -33,11 +33,26 @@
 
 ### How to Run Locally
 
-1. Clone the repository:
+1. **Clone the repository**:
    ```bash
    git clone https://github.com/ShaileshAgrawal07/EchoAssist.git
    cd EchoAssist
    ```
 
-2. Open index.html in your browser.
-     That's it! The app should load and be ready to use.
+2.  **Install dependencies**:
+     ```bash
+      pip install -r requirements.txt
+     ```
+     
+3. **In one Terminal run the following command**:
+   ```bash
+   streamlit run main.py
+   ```
+   
+4. **In second Terminal run the following command**:
+   ```bash
+   npm satrt server.js
+   ```
+   
+5. **On any browser search https://localhost:5000**
+   
