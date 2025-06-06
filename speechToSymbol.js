@@ -19,7 +19,6 @@ function convertStringToASL(textString) {
 document.addEventListener('DOMContentLoaded', () => {
     const startRecordingButton = document.querySelector('#startSpeechToSymbol');
     const stopRecordingButton = document.querySelector('#stopSpeechToSymbol');
-
     const textResultDiv = document.querySelector('#resultText');
     const totalTextResultDiv = document.querySelector('#resultTextTot');
     const transResultDiv = document.querySelector('#resultTextTrans');
@@ -27,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const symbolResultDiv = document.querySelector('#resultSymbol');
     const totalSymbolResultDiv = document.querySelector('#resultSymbolTot');
     const instructions = document.querySelector('#instructions');
-
     const remoteTextDiv = document.querySelector('#remoteText');
     const remoteSymbolDiv = document.querySelector('#remoteSymbols');
 
