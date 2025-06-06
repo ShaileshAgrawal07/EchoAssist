@@ -19,13 +19,9 @@ const io = socketio(expressServer,{
     }
 });
 expressServer.listen(5000);
-
-
 const offers = [
-    
 ];
 const connectedSockets = [
-    
 ]
 
 io.on('connection',(socket)=>{
