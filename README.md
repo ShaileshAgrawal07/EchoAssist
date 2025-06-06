@@ -37,3 +37,7 @@
    ```bash
    git clone https://github.com/ShaileshAgrawal07/EchoAssist.git
    cd EchoAssist
+   ```
+
+2. Open index.html in your browser.
+     That's it! The app should load and be ready to use.
