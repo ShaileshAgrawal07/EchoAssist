@@ -15,13 +15,6 @@
 
 ---
 
-## 📸 Demo
-
-![EchoAssist Demo](https://github.com/ShaileshAgrawal07/EchoAssist/blob/main/assets/demo.gif)  
-*(Replace with actual demo GIF or screenshots if available)*
-
----
-
 ## 🛠️ Tech Stack
 
 - **HTML5 / CSS3 / JavaScript**
